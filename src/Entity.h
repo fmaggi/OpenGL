@@ -6,9 +6,11 @@ class Entity
 {
 public:
 
+	Entity();
 	~Entity();
 
 	void update(float timestep, GLFWwindow* window);
+	void launch();
 
 	inline void setPosition(glm::vec3 position) { m_Position = position; }
 	inline glm::vec3 getPosition() const { return m_Position; }
@@ -28,9 +30,17 @@ public:
 	glm::mat4 getTransformationMatrix();
 
 private:
+
+
+private:
 	Model* m_Model;
 	glm::vec3 m_Position;
 	glm::vec3 m_Rotation;
 	glm::vec3 m_Scale;
+
+	float m_Speed;
+	float m_Mass;
+	float m_Power;
+	float m_Acceleration;
 };
 

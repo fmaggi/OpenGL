@@ -37,11 +37,9 @@ int DisplayManager::genereate(int width, int height, const std::string& title)
         DisplayManager* display = (DisplayManager*)glfwGetWindowUserPointer(window);
 
         Events event(EventType::KeyPressed);
-        event.data[0] = key;
-        event.data[1] = scancode;
-        event.data[2] = mode;
-        event.dataMap["key"] = key;
-        event.dataMap["mode"] = mode;
+        event.data["key"] = key;
+        event.data["mode"] = mode;
+        event.data["scancode"] = scancode;
         EventManager::dispatch(event);
         });
 

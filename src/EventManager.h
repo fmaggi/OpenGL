@@ -14,17 +14,12 @@ class Events
 public:
 	Events(EventType t)
 		: type(t)
-	{
-		data[0] = 0;
-		data[1] = 0;
-		data[2] = 0;
-	};
+	{};
 
 	inline EventType getType() { return type; }
 	bool handled = false;
 	
-	int data[3];
-	std::unordered_map<std::string, int> dataMap;
+	std::unordered_map<std::string, int> data;
 
 private:
 	EventType type = EventType::None;
@@ -42,8 +37,6 @@ private:
 
 	std::vector<Events> m_events;
 	static EventManager s_EventManager;
-
-	void KeyPressed();
 };
 
 

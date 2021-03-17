@@ -1,5 +1,18 @@
 #include "Entity.h"
 
+
+Entity::Entity()
+{
+	m_Speed = 0.0f;
+	m_Mass = 10;
+	m_Power = 0;
+	m_Acceleration = 0;
+	m_Model = NULL;
+	m_Position = { 0.0f, 0.0f, 0.0f };
+	m_Rotation = { 0.0f, 0.0f, 0.0f };
+	m_Scale = { 1.0f, 1.0f, 1.0f };
+}
+
 Entity::~Entity()
 {
     delete m_Model;
@@ -17,12 +30,24 @@ void Entity::update(float timestep, GLFWwindow* window)
 	}
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 	{
-		move(glm::vec3(0.5f, 0.0f, 0.0f), timestep);
+		rotate(glm::vec3(0.0f, 0.0f, -0.5f), timestep);
 	}
 	else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 	{
-		move(glm::vec3(-0.5f, 0.0f, 0.0f), timestep);
+		rotate(glm::vec3(0.0f, 0.0f, 0.5f), timestep);
 	}
+
+	m_Speed += m_Acceleration * timestep;
+
+	m_Position.x += -(m_Speed * glm::sin(m_Rotation.z)) * timestep;
+	m_Position.y += (m_Speed * glm::cos(m_Rotation.z)) * timestep;
+}
+
+void Entity::launch()
+{
+	m_Power = 130;
+	float weight = m_Mass * -9.8;
+	m_Acceleration = m_Power + weight;
 }
 
 glm::mat4 Entity::getTransformationMatrix()
