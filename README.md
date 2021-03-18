@@ -6,6 +6,7 @@ Learned openGL watching the Cherno youtube channel.
 Do not know how to use cmake or premake yet
 
 to compile:
+
 	Preprocessor definitions:
 		GLEW_STATIC
 		WIN_32
