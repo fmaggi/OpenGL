@@ -7,7 +7,6 @@ out vec3 toLightVector;
 out vec3 surfaceNormal;
 
 uniform vec3 LightPos;
-
 uniform mat4 proj;
 uniform mat4 model;
 

@@ -19,9 +19,6 @@ Model* OBJLoader::LoadObj(std::string filename)
     std::vector<Vertex> objN;
     std::vector<float*> objT;
     std::vector<unsigned int> indices;
-    
-
-    int faceCount = 0;
 
     std::string delim = "/";
     std::string curr_material;

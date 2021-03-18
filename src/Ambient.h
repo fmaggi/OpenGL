@@ -1,5 +1,6 @@
 #pragma once
 #include "Core.h"
+#include "Entity.h"
 
 class Light
 {
@@ -23,6 +24,7 @@ public:
 	inline const glm::vec3& getPosition() const { return m_Pos; }
 private:
 	glm::vec3 m_Pos;
+	Entity* player;
 };
 
 

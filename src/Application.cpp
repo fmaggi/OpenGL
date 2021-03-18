@@ -20,7 +20,6 @@ void Application::keyPressed(Events& e)
 	if (key == GLFW_KEY_SPACE && mode == GLFW_PRESS)
 	{
 		s_Application.player->launch();
-		std::cout << "Launching\n";
 	}
 }
 
@@ -29,7 +28,6 @@ int Application::Init()
 	s_Application.isRunning = true;
 
 	Light light(glm::vec3(3.0f, 0.0f, 0.0f), glm::vec3(1, 1, 1));
-	s_Application.m_Renderer.setLight(&light);
 
 	int width = 1920;
 	int height = 1080;
@@ -56,13 +54,12 @@ int Application::Init()
 
 	s_Application.player = new Entity();
 	s_Application.player->setModel(mod);
-	s_Application.player->setPosition(glm::vec3(0, 0, -15));
+	s_Application.player->setPosition(glm::vec3(0, -5, -15));
 	s_Application.player->setRotation(glm::vec3(0, 0, 0));
 	s_Application.player->setScale(0.3f);
 
 	glm::mat4 model = s_Application.player->getTransformationMatrix();
-
-	glm::mat4 Projection = glm::perspective(45.0f, aspectRatio, 0.1f, 100.f);
+	glm::mat4 Projection = s_Application.m_Display.getPojectionMatrix();
 
 	s_Application.shader.loadShader("vertexShader", "fragmentShader");
 	s_Application.shader.bind();
@@ -95,7 +92,6 @@ void Application::Event()
 		default:
 			continue;
 		}
-		e.handled = true;
 	}
 	EventManager::handled();
 }

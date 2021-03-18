@@ -16,9 +16,7 @@ public:
 		: type(t)
 	{};
 
-	inline EventType getType() { return type; }
-	bool handled = false;
-	
+	inline EventType getType() { return type; }	
 	std::unordered_map<std::string, int> data;
 
 private:
