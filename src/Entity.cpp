@@ -1,5 +1,8 @@
 #include "Entity.h"
 
+static float GRAVITY = -9.8;
+// TODO: physics file
+
 
 Entity::Entity()
 {
@@ -38,6 +41,8 @@ void Entity::update(float timestep, GLFWwindow* window)
 	}
 
 	m_Speed += m_Acceleration * timestep;
+	// not perfectly accurate but it´ll do
+	// acceleration should be a vector
 
 	m_Position.x += -(m_Speed * glm::sin(m_Rotation.z)) * timestep;
 	m_Position.y += (m_Speed * glm::cos(m_Rotation.z)) * timestep;
@@ -46,8 +51,7 @@ void Entity::update(float timestep, GLFWwindow* window)
 void Entity::launch()
 {
 	m_Power = 130;
-	float weight = m_Mass * -9.8;
-	m_Acceleration = m_Power + weight;
+	m_Acceleration = (m_Power / m_Mass) + GRAVITY;
 }
 
 glm::mat4 Entity::getTransformationMatrix()
