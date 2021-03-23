@@ -1,4 +1,5 @@
 #include "Application.h"
+#include "Input.h"
 
 Application Application::s_Application;
 
@@ -13,7 +14,7 @@ void Application::close()
 	s_Application.isRunning = false;
 }
 
-void Application::keyPressed(Events& e)
+void Application::keyPressed(Event& e)
 {
 	int key = e.data["key"];
 	int mode = e.data["mode"];
@@ -31,7 +32,6 @@ int Application::Init()
 
 	int width = 1920;
 	int height = 1080;
-	float aspectRatio = (float)width / height;
 	const std::string title = "Hello, world!";
 
 	int failed = s_Application.m_Display.genereate(width, height, title);
@@ -41,7 +41,7 @@ int Application::Init()
 		return failed;
 	}
 
-	s_Application.window = s_Application.m_Display.getWindow();
+	InputHandler::setWindow(s_Application.m_Display.getWindow());
 
 	std::string model_name = "Saturn V";
 	std::cout << "loading " << model_name << std::endl;
@@ -72,10 +72,10 @@ int Application::Init()
 	return 0;
 }
 
-void Application::Event()
+void Application::OnEvent()
 {
-	std::vector<Events> events = EventManager::pollEvents();
-	for (Events e : events)
+	std::vector<Event> events = EventManager::pollEvents();
+	for (Event e : events)
 	{
 		EventType t = e.getType();
 		switch (t)
@@ -98,14 +98,18 @@ void Application::Event()
 
 void Application::Update()
 {
-	Event();
+	OnEvent();
 	s_Application.m_Display.update();
 	s_Application.m_Renderer.prepare();
 	float time = (float)glfwGetTime();
 	float timestep = time - s_Application.m_LastFrameTime;
 	s_Application.m_LastFrameTime = time;
 
-	s_Application.player->update(timestep, s_Application.window);
+	Command* command = InputHandler::getCommand();
+	if (command)
+		command->execute(s_Application.player, timestep);
+
+	s_Application.player->update(timestep);
 }
 
 void Application::Draw()

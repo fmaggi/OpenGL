@@ -9,7 +9,7 @@ public:
 	Entity();
 	~Entity();
 
-	void update(float timestep, GLFWwindow* window);
+	void update(float timestep);
 	void launch();
 
 	inline void setPosition(glm::vec3 position) { m_Position = position; }
@@ -28,9 +28,6 @@ public:
 	inline Model* getModel() const { return m_Model; }
 
 	glm::mat4 getTransformationMatrix();
-
-private:
-
 
 private:
 	Model* m_Model;

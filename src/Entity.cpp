@@ -21,25 +21,8 @@ Entity::~Entity()
     delete m_Model;
 }
 
-void Entity::update(float timestep, GLFWwindow* window)
+void Entity::update(float timestep)
 {
-	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-	{
-		move(glm::vec3(0.0f, -0.5f, 0.0f), timestep);
-	}
-	else if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-	{
-		move(glm::vec3(0.0f, 0.5f, 0.0f), timestep);
-	}
-	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-	{
-		rotate(glm::vec3(0.0f, 0.0f, -0.5f), timestep);
-	}
-	else if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-	{
-		rotate(glm::vec3(0.0f, 0.0f, 0.5f), timestep);
-	}
-
 	m_Speed += m_Acceleration * timestep;
 	// not perfectly accurate but it´ll do
 	// acceleration should be a vector

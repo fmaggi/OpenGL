@@ -2,12 +2,12 @@
 
 EventManager EventManager::s_EventManager;
 
-void EventManager::dispatch(Events t)
+void EventManager::dispatch(Event t)
 {
     s_EventManager.m_events.push_back(t);
 }
 
-std::vector<Events>& EventManager::pollEvents()
+std::vector<Event>& EventManager::pollEvents()
 {
     return s_EventManager.m_events;
 }

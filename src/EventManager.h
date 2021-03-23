@@ -9,10 +9,10 @@ enum class EventType
 	Done
 };
 
-class Events
+class Event
 {
 public:
-	Events(EventType t)
+	Event(EventType t)
 		: type(t)
 	{};
 
@@ -27,13 +27,13 @@ class EventManager
 {
 public:
 	EventManager(const EventManager&) = delete;
-	static void dispatch(Events t);
-	static std::vector<Events>& pollEvents();
+	static void dispatch(Event t);
+	static std::vector<Event>& pollEvents();
 	static void handled();
 private:
 	EventManager() {};
 
-	std::vector<Events> m_events;
+	std::vector<Event> m_events;
 	static EventManager s_EventManager;
 };
 

@@ -24,19 +24,19 @@ int DisplayManager::genereate(int width, int height, const std::string& title)
     glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height) {
         DisplayManager* display = (DisplayManager*)glfwGetWindowUserPointer(window);
         display->resize(width, height);
-        Events event(EventType::Resize);
+        Event event(EventType::Resize);
         EventManager::dispatch(event);
         });
 
     glfwSetWindowCloseCallback(m_Window, [](GLFWwindow* window) {
-        Events event(EventType::WinClose);
+        Event event(EventType::WinClose);
         EventManager::dispatch(event);
         });
 
     glfwSetKeyCallback(m_Window, [](GLFWwindow* window, int key, int scancode, int mode, int mods) {
         DisplayManager* display = (DisplayManager*)glfwGetWindowUserPointer(window);
 
-        Events event(EventType::KeyPressed);
+        Event event(EventType::KeyPressed);
         event.data["key"] = key;
         event.data["mode"] = mode;
         event.data["scancode"] = scancode;

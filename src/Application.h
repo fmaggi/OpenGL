@@ -20,18 +20,17 @@ protected:
 	Entity* player;
 	Shader shader;
 
-	GLFWwindow* window;
 	bool isRunning;
 
 	void resize();
 	void close();
-	void keyPressed(Events& e);
+	void keyPressed(Event& e);
 
 	float m_LastFrameTime = 0.0f;
 public:
 	Application(const Application&) = delete;
 	static int Init();
-	static void Event();
+	static void OnEvent();
 	static void Update();
 	static void Draw();
 	static bool IsRunning();
