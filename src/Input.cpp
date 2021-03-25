@@ -1,8 +1,5 @@
 #include "Input.h"
 
-InputHandler InputHandler::s_Input;
-
-
 void Move::execute(Entity* ntt, float ts)
 {
 	ntt->move(dir, ts);
@@ -15,32 +12,32 @@ void Rotate::execute(Entity* ntt, float ts)
 
 Command* InputHandler::getCommand()
 {
-	if (glfwGetKey(s_Input.m_Window, GLFW_KEY_W) == GLFW_PRESS) return s_Input.keyW;
-	if (glfwGetKey(s_Input.m_Window, GLFW_KEY_A) == GLFW_PRESS) return s_Input.keyA;
-	if (glfwGetKey(s_Input.m_Window, GLFW_KEY_S) == GLFW_PRESS) return s_Input.keyS;
-	if (glfwGetKey(s_Input.m_Window, GLFW_KEY_D) == GLFW_PRESS) return s_Input.keyD;
+	if (glfwGetKey(m_Window, GLFW_KEY_W) == GLFW_PRESS) return keyW;
+	if (glfwGetKey(m_Window, GLFW_KEY_A) == GLFW_PRESS) return keyA;
+	if (glfwGetKey(m_Window, GLFW_KEY_S) == GLFW_PRESS) return keyS;
+	if (glfwGetKey(m_Window, GLFW_KEY_D) == GLFW_PRESS) return keyD;
 
 	return nullptr;
 }
 
 void InputHandler::handle(Entity* player, float ts)
 {
-	if (glfwGetKey(s_Input.m_Window, GLFW_KEY_W) == GLFW_PRESS)
+	if (glfwGetKey(m_Window, GLFW_KEY_W) == GLFW_PRESS)
 	{
-		s_Input.keyW->execute(player, ts);
+		keyW->execute(player, ts);
 	}
-	else if (glfwGetKey(s_Input.m_Window, GLFW_KEY_S) == GLFW_PRESS)
+	else if (glfwGetKey(m_Window, GLFW_KEY_S) == GLFW_PRESS)
 	{
-		s_Input.keyS->execute(player, ts);
+		keyS->execute(player, ts);
 	}
 
-	if (glfwGetKey(s_Input.m_Window, GLFW_KEY_A) == GLFW_PRESS)
+	if (glfwGetKey(m_Window, GLFW_KEY_A) == GLFW_PRESS)
 	{
-		s_Input.keyA->execute(player, ts);
+		keyA->execute(player, ts);
 	}
-	else if (glfwGetKey(s_Input.m_Window, GLFW_KEY_D) == GLFW_PRESS)
+	else if (glfwGetKey(m_Window, GLFW_KEY_D) == GLFW_PRESS)
 	{
-		s_Input.keyD->execute(player, ts);
+		keyD->execute(player, ts);
 	}	
 }
 

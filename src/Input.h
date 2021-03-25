@@ -34,16 +34,14 @@ private:
 class InputHandler
 {
 public:
-	InputHandler(const InputHandler&) = delete;
-	static Command* getCommand();
-	inline static void setWindow(GLFWwindow* window) { s_Input.m_Window = window; }
-	static void handle(Entity* player, float ts);
-private:
 	~InputHandler();
 	InputHandler();
-	GLFWwindow* m_Window;
 
-	static InputHandler s_Input;
+	Command* getCommand();
+	inline void setWindow(GLFWwindow* window) { m_Window = window; }
+	void handle(Entity* player, float ts);
+private:
+	GLFWwindow* m_Window;
 
 	Command* keyW;
 	Command* keyA;

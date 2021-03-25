@@ -1,5 +1,4 @@
 #include "Application.h"
-#include "Input.h"
 
 Application Application::s_Application;
 
@@ -41,7 +40,7 @@ int Application::Init()
 		return failed;
 	}
 
-	InputHandler::setWindow(s_Application.m_Display.getWindow());
+	s_Application.m_Input.setWindow(s_Application.m_Display.getWindow());
 
 	std::string model_name = "Saturn V";
 	std::cout << "loading " << model_name << std::endl;
@@ -105,7 +104,7 @@ void Application::Update()
 	float timestep = time - s_Application.m_LastFrameTime;
 	s_Application.m_LastFrameTime = time;
 
-	InputHandler::handle(s_Application.player, timestep);
+	s_Application.m_Input.handle(s_Application.player, timestep);
 
 	s_Application.player->update(timestep);
 }
