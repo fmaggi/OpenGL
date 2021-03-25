@@ -1,5 +1,4 @@
 #include "Input.h"
-#include "DisplayManager.h"
 
 InputHandler InputHandler::s_Input;
 
@@ -24,6 +23,27 @@ Command* InputHandler::getCommand()
 	return nullptr;
 }
 
+void InputHandler::handle(Entity* player, float ts)
+{
+	if (glfwGetKey(s_Input.m_Window, GLFW_KEY_W) == GLFW_PRESS)
+	{
+		s_Input.keyW->execute(player, ts);
+	}
+	else if (glfwGetKey(s_Input.m_Window, GLFW_KEY_S) == GLFW_PRESS)
+	{
+		s_Input.keyS->execute(player, ts);
+	}
+
+	if (glfwGetKey(s_Input.m_Window, GLFW_KEY_A) == GLFW_PRESS)
+	{
+		s_Input.keyA->execute(player, ts);
+	}
+	else if (glfwGetKey(s_Input.m_Window, GLFW_KEY_D) == GLFW_PRESS)
+	{
+		s_Input.keyD->execute(player, ts);
+	}	
+}
+
 InputHandler::InputHandler()
 {
 	keyW = new Move({ 0.0f, 0.5f, 0.0f });
@@ -34,7 +54,6 @@ InputHandler::InputHandler()
 
 InputHandler::~InputHandler()
 {
-	std::cout << "Deleted Input" << std::endl;
 	delete keyA;
 	delete keyD;
 	delete keyS;

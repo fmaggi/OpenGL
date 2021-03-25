@@ -105,9 +105,7 @@ void Application::Update()
 	float timestep = time - s_Application.m_LastFrameTime;
 	s_Application.m_LastFrameTime = time;
 
-	Command* command = InputHandler::getCommand();
-	if (command)
-		command->execute(s_Application.player, timestep);
+	InputHandler::handle(s_Application.player, timestep);
 
 	s_Application.player->update(timestep);
 }

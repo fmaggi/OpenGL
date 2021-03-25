@@ -16,6 +16,7 @@ public:
 		: dir(d)
 	{};
 	void execute(Entity* ntt, float ts) override;
+private:
 	glm::vec3 dir;
 };
 
@@ -26,6 +27,7 @@ public:
 		: rot(r)
 	{};
 	void execute(Entity* ntt, float ts) override;
+private:
 	glm::vec3 rot;
 };
 
@@ -35,6 +37,7 @@ public:
 	InputHandler(const InputHandler&) = delete;
 	static Command* getCommand();
 	inline static void setWindow(GLFWwindow* window) { s_Input.m_Window = window; }
+	static void handle(Entity* player, float ts);
 private:
 	~InputHandler();
 	InputHandler();
