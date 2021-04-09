@@ -32,15 +32,6 @@ void Renderer::render(Entity* ent, Shader& shader)
 	}
 }
 
-void Renderer::renderTerrain(Terrain* terrain, Shader& shader)
-{
-	shader.bind();
-	glBindVertexArray(terrain->getVao());
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, terrain->getIbo());
-	glDrawElements(GL_TRIANGLES, terrain->getVertexCount(), GL_UNSIGNED_INT, 0);
-	//glDrawArrays(GL_QUADS, 0, terrain->getVertexCount());
-}
-
 void Renderer::setClearColor(float r, float g, float b)
 {
 	glClearColor(r, g, b, 1.0f);

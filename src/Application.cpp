@@ -7,15 +7,11 @@
 #include "Input.h"
 #include "OBJLoader.h"
 #include "Ambient.h"
-#include "Terrain.h"
 
 Application Application::s_Application;
 
 static Entity* player = nullptr;
 static Shader shader;
-
-static Shader terrainShader;
-static Terrain* terrain = nullptr;
 
 static Renderer m_Renderer;
 static DisplayManager m_Display;
@@ -80,33 +76,6 @@ int Application::Init()
 
 	m_Input.setWindow(m_Display.getWindow());
 
-	float coord[4 * 3] = {
-		1.0f, -0.5f, 0.0f,
-		1.0f, -0.5f, 1.0f,
-		-1.0f, -0.5f, 0.0f,
-		-1.0f, -0.5f, 1.0f
-	};
-
-	unsigned int indices[6] = {
-		0, 1, 2,
-		1, 3, 2
-	};
-
-	glGenVertexArrays(1, &vaoID);
-	glBindVertexArray(vaoID);
-
-	unsigned int buffer, ibo;
-	glGenBuffers(1, &buffer);
-	glBindBuffer(GL_ARRAY_BUFFER, buffer);
-	glBufferData(GL_ARRAY_BUFFER, 12 * sizeof(float), coord, GL_STATIC_DRAW);
-
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-	glGenBuffers(1, &ibo);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(unsigned int), indices, GL_STATIC_DRAW);
-
 	std::string model_name = "colored";
 	std::cout << "loading " << model_name << std::endl;
 	Model* mod = OBJLoader::LoadObj(model_name);
@@ -123,11 +92,6 @@ int Application::Init()
 	player->setRotation(glm::vec3(0, 0, 0));
 
 	player->setScale(1);
-
-	terrain = new Terrain(0, 0, 800);
-	terrain->generateTerrain();
-
-	std::cout << "hello\n";
 	
 	glm::mat4 model = player->getTransformationMatrix();
 	glm::mat4 Projection = m_Display.getPojectionMatrix();
@@ -141,14 +105,6 @@ int Application::Init()
 	shader.setUniformM4f("proj", Projection);
 	shader.setUniformVec3f("LightPos", light.getPosition());
 	shader.setUniformVec3f("LightColor", light.getColor());
-
-	terrainShader.loadShader("terrainV", "terrainF");
-	terrainShader.bind();
-	glm::mat4 terrainMod = terrain->getTransformationMatrix();
-	glm::mat4 i(1);
-
-	terrainShader.setUniformM4f("proj", Projection);
-	terrainShader.setUniformM4f("model", terrainMod);
 
 	m_Renderer.setClearColor(0.0f, 0.0f, 0.0f);
 	m_Display.update();
@@ -197,10 +153,6 @@ void Application::Update()
 
 void Application::Draw()
 {
-	m_Renderer.renderTerrain(terrain, terrainShader);
-	//terrainShader.bind();
-	//glBindVertexArray(vaoID);
-	//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 	m_Renderer.render(player, shader);
 }
 
