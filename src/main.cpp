@@ -10,6 +10,7 @@ int main(void)
 
     while (Application::IsRunning())
     {
+        Application::OnEvent();
         Application::Update();
         Application::Draw();
     }

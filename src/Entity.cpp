@@ -6,10 +6,10 @@ static float GRAVITY = -9.8;
 
 Entity::Entity()
 {
-	m_Speed = 0.0f;
+	m_Speed = { 0.0f, 0.0f };
 	m_Mass = 10;
 	m_Power = 0;
-	m_Acceleration = 0;
+	m_Acceleration =  0.0f;
 	m_Model = NULL;
 	m_Position = { 0.0f, 0.0f, 0.0f };
 	m_Rotation = { 0.0f, 0.0f, 0.0f };
@@ -18,23 +18,16 @@ Entity::Entity()
 
 Entity::~Entity()
 {
-    delete m_Model;
-}
-
-void Entity::update(float timestep)
-{
-	m_Speed += m_Acceleration * timestep;
-	// not perfectly accurate but it´ll do
-	// acceleration should be a vector
-
-	m_Position.x += -(m_Speed * glm::sin(m_Rotation.z)) * timestep;
-	m_Position.y += (m_Speed * glm::cos(m_Rotation.z)) * timestep;
 }
 
 void Entity::launch()
 {
+	if (m_Power)
+	{
+		m_Power = 0;
+		return;
+	}
 	m_Power = 130;
-	m_Acceleration = (m_Power / m_Mass) + GRAVITY;
 }
 
 glm::mat4 Entity::getTransformationMatrix()

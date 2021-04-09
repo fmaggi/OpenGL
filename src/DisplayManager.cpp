@@ -1,4 +1,10 @@
 #include "DisplayManager.h"
+#include "EventManager.h"
+
+void ErrorCallback(int, const char* err_str)
+{
+    std::cout << "GLFW Error: " << err_str << std::endl;
+}
 
 int DisplayManager::genereate(int width, int height, const std::string& title)
 {
@@ -9,8 +15,17 @@ int DisplayManager::genereate(int width, int height, const std::string& title)
     aspectRatio = (float)m_width / m_height;
     projectionMatrix = glm::perspective(45.0f, aspectRatio, 0.1f, 100.f);
 
+    glfwSetErrorCallback(ErrorCallback);
+
 	if (!glfwInit())
 		return -1;
+
+
+    glfwWindowHint(GLFW_SAMPLES, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     m_Window = glfwCreateWindow(m_width, m_height, m_title, NULL, NULL);
     if (!m_Window)
@@ -51,11 +66,16 @@ int DisplayManager::genereate(int width, int height, const std::string& title)
         std::cout << "Error!" << glewGetErrorString(err) <<std::endl;
         return -3;
     }
+
+    glViewport(0, 0, width, height);
+
 	return 0;
 }
 
 void DisplayManager::resize(int w, int h)
 {
+    glViewport(0, 0, w, h);
+
     m_width = w;
     m_height = h;
     aspectRatio = (float)m_width / m_height;

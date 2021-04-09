@@ -7,13 +7,6 @@ Renderer::Renderer()
 void Renderer::renderModel(Model* model)
 {
 	glBindVertexArray(model->getVaoID());
-	unsigned int attrib = model->getAttribs();
-	unsigned int i = 0;
-	do
-	{
-		glEnableVertexAttribArray(i);
-		i++;
-	} while (i < attrib);
 	auto m = model->getMeshes();
 	for (ObjModel* obj : m)
 	{
@@ -22,11 +15,44 @@ void Renderer::renderModel(Model* model)
 	}
 }
 
+void Renderer::render(Entity* ent, Shader& shader)
+{
+	Model* model = ent->getModel();
+	glm::mat4 trans = ent->getTransformationMatrix();
+	auto meshes = model->getMeshes();
+	shader.bind();
+	shader.setUniformM4f("model", trans);
+	glBindVertexArray(model->getVaoID());
+	for (ObjModel* obj : meshes)
+	{
+		Material material = model->getMaterial(obj->getMaterial());
+		shader.setUniformMaterial("material", material);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, obj->getIbo());
+		glDrawElements(GL_TRIANGLES, obj->getVertexCount(), GL_UNSIGNED_INT, 0);
+	}
+}
+
+void Renderer::renderTerrain(Terrain* terrain, Shader& shader)
+{
+	shader.bind();
+	glBindVertexArray(terrain->getVao());
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, terrain->getIbo());
+	glDrawElements(GL_TRIANGLES, terrain->getVertexCount(), GL_UNSIGNED_INT, 0);
+	//glDrawArrays(GL_QUADS, 0, terrain->getVertexCount());
+}
+
+void Renderer::setClearColor(float r, float g, float b)
+{
+	glClearColor(r, g, b, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT);
+}
+
 void Renderer::renderEntity(Entity* ent)
 {
 	Model* model = ent->getModel();
 	renderModel(model);
 }
+
 
 void Renderer::prepare()
 {

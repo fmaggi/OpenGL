@@ -1,10 +1,6 @@
 #pragma once
-#include "Renderer.h"
-#include "DisplayManager.h"
-#include "OBJLoader.h"
-#include "Shader.h"
+
 #include "EventManager.h"
-#include "Input.h"
 
 class Application
 {
@@ -12,15 +8,9 @@ protected:
 	Application() {};
 
 	static Application s_Application;
-	Renderer m_Renderer;
-	DisplayManager m_Display;
-	InputHandler m_Input;
 
 	//std::unordered_map<Model*, std::vector<Entity>> ntt_map;
 	// future feature, instead of having a single entity
-
-	Entity* player;
-	Shader shader;
 
 	bool isRunning;
 

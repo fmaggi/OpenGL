@@ -37,8 +37,8 @@ public:
 	~InputHandler();
 	InputHandler();
 
-	Command* getCommand();
 	inline void setWindow(GLFWwindow* window) { m_Window = window; }
+	void changeInput();
 	void handle(Entity* player, float ts);
 private:
 	GLFWwindow* m_Window;

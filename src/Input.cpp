@@ -2,22 +2,61 @@
 
 void Move::execute(Entity* ntt, float ts)
 {
-	ntt->move(dir, ts);
+	ntt->move(dir * glm::vec3(ts));
 }
 
 void Rotate::execute(Entity* ntt, float ts)
 {
-	ntt->rotate(rot, ts);
+	ntt->rotate(rot * glm::vec3(ts));
 }
 
-Command* InputHandler::getCommand()
-{
-	if (glfwGetKey(m_Window, GLFW_KEY_W) == GLFW_PRESS) return keyW;
-	if (glfwGetKey(m_Window, GLFW_KEY_A) == GLFW_PRESS) return keyA;
-	if (glfwGetKey(m_Window, GLFW_KEY_S) == GLFW_PRESS) return keyS;
-	if (glfwGetKey(m_Window, GLFW_KEY_D) == GLFW_PRESS) return keyD;
+void InputHandler::changeInput()
+{	
+	bool a = false;
+	bool d = false;
+	bool m = false;
+	bool r = false;
+	while (!a && !d)
+	{
+		glfwPollEvents();
+		a = (glfwGetKey(m_Window, GLFW_KEY_A) == GLFW_PRESS);
+		d = (glfwGetKey(m_Window, GLFW_KEY_D) == GLFW_PRESS);
+	}
+	while (!r && !m)
+	{
+		glfwPollEvents();
+		r = (glfwGetKey(m_Window, GLFW_KEY_R) == GLFW_PRESS);
+		m = (glfwGetKey(m_Window, GLFW_KEY_M) == GLFW_PRESS);
+	}
+	if (a)
+	{
+		delete keyA;
+		if (m)
+		{
+			keyA = new Move({ -0.5f, 0.0f, 0.0f });
+			return;
+		}
+		else if (r)
+		{
+			keyA = new Rotate({ 0.0f, 0.0f, 0.5f });
+			return;
+		}
+	}
+	if (d)
+	{
+		delete keyD;
+		if (m)
+		{
+			keyD = new Move({ 0.5f, 0.0f, 0.0f });
+			return;
+		}
+		else if (r)
+		{
+			keyD = new Rotate({ 0.0f, 0.0f, -0.5f });
+			return;
+		}
+	}
 
-	return nullptr;
 }
 
 void InputHandler::handle(Entity* player, float ts)
@@ -43,10 +82,11 @@ void InputHandler::handle(Entity* player, float ts)
 
 InputHandler::InputHandler()
 {
-	keyW = new Move({ 0.0f, 0.5f, 0.0f });
-	keyA = new Rotate({ 0.0f, 0.0f, 0.5f });
+	keyW = new Move({ 0.0f, 2.0f, 0.0f });
+	keyA = new Move({ -0.5f, 0.0f, 0.0f });
 	keyS = new Move({ 0.0f, -0.5f, 0.0f });
-	keyD = new Rotate({ 0.0f, 0.0f, -0.5f });
+	keyD = new Move({ 0.5f, 0.0f, 0.0f });
+	m_Window = nullptr;
 }
 
 InputHandler::~InputHandler()

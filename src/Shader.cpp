@@ -5,6 +5,7 @@ void Shader::setUniformM4f(const std::string& name, glm::mat4& matrix)
     int location = getUniformLocation(name);
     if (location == -1)
     {
+        std::cout << "not found\n" << name <<std::endl;
         return;
     }
     glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
@@ -18,6 +19,38 @@ void Shader::setUniformVec3f(const std::string& name, glm::vec3 vec)
         return;
     }
     glUniform3fv(location, 1, &vec[0]);
+}
+
+void Shader::setUniformVec3f(const std::string& name, float data[3])
+{
+    int location = getUniformLocation(name);
+    if (location == -1)
+    {
+        return;
+    }
+    glUniform3fv(location, 1, data);
+}
+
+void Shader::setUniform1f(const std::string& name, float f)
+{
+    int location = getUniformLocation(name);
+    if (location == -1)
+    {
+        return;
+    }
+    glUniform1f(location, f);
+}
+
+void Shader::setUniformMaterial(const std::string& name, Material& mat)
+{
+    setUniform1f(name + ".ns", mat.ns);
+    setUniformVec3f(name + ".ka", mat.ka);
+    setUniformVec3f(name + ".ks", mat.ks);
+    setUniformVec3f(name + ".kd", mat.kd);
+    setUniformVec3f(name + ".ke", mat.ke);
+    setUniform1f(name + ".ni", mat.ni);
+    setUniform1f(name + ".d", mat.d);
+    setUniform1f(name + ".illum", mat.illum);
 }
 
 int Shader::getUniformLocation(const std::string& name)
@@ -46,10 +79,18 @@ unsigned int Shader::compileShader(const std::string& source, unsigned int type)
         glGetShaderInfoLog(id, len, &len, message);
         std::cout << message << std::endl;
         glDeleteShader(id);
+        delete[] message;
         return 0;
     }
 
     return id;
+}
+
+Shader::~Shader()
+{
+    //glDeleteShader(vertexID);
+    //glDeleteShader(fragmentID);
+    //glDeleteProgram(programID);
 }
 
 void Shader::createShader(const std::string& vertexShader, const std::string& fragmentShader)
