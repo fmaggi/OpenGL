@@ -9,7 +9,7 @@ wasd keys to move and rotate
 
 space bar to launch rocket
 
-to compile:
+to compile in Visual Studio 2019:
 
 	Preprocessor definitions:
 		GLEW_STATIC
