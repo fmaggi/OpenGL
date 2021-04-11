@@ -1,4 +1,7 @@
 # OpenGL
+
+## developing terrain
+
 trying to learn opengl with c++
 
 Learned openGL watching the Cherno youtube channel.
@@ -31,4 +34,3 @@ to compile in Visual Studio 2019:
 		gdi32.lib
 		shell32.lib
 		glew32s.lib
-

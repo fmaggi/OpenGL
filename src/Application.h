@@ -14,7 +14,7 @@ protected:
 
 	bool isRunning = false;
 
-	void resize();
+	void resize(Event& e);
 	void close();
 	void keyPressed(Event& e);
 

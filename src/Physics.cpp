@@ -7,19 +7,13 @@
 namespace Physics
 {
 	const static float GRAVITY = -9.8f;
-	const static float FLOOR = -4.0f;
+	const static float FLOOR = 0.0f;
 
 	void update(Entity* ntt, float ts)
 	{
 		glm::vec2 m_speed = ntt->getSpeed();
-
-		glm::mat4 trans = ntt->getTransformationMatrix();
-		glm::vec3 scale;
-		glm::quat rotation;
-		glm::vec3 m_pos;
-		glm::vec3 skew;
-		glm::vec4 perspective;
-		glm::decompose(trans, scale, rotation, m_pos, skew, perspective);
+		glm::vec3 rotation = ntt->getRotation();
+		glm::vec3 m_pos = ntt->getPosition();
 
 		float cosZ = glm::cos(rotation.z);
 		float sinZ = glm::sin(rotation.z);

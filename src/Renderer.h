@@ -3,6 +3,7 @@
 #include "Core.h"
 #include "Entity.h"
 #include "Shader.h"
+#include "Ambient.h"
 
 class Renderer
 {
@@ -16,9 +17,12 @@ public:
 	void setClearColor(float r, float g, float b);
 
 	inline void setProjectionMatrix(glm::mat4& mat) { projectionMatrix = mat; }
+	void setViewPort(int w, int h);
+	inline void setCamera(Camera* cam) { camera = cam; }
 
 	void prepare();
 private:
 	glm::mat4 projectionMatrix;
+	Camera* camera = nullptr;
 };
 

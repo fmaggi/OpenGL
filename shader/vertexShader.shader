@@ -9,6 +9,7 @@ out vec3 surfaceNormal;
 uniform vec3 LightPos;
 uniform mat4 proj;
 uniform mat4 model;
+uniform mat4 view;
 
 void main()
 {
@@ -17,5 +18,6 @@ void main()
     toLightVector = LightPos - worldPos.xyz;
     surfaceNormal = (model * vec4(normal, 0.0)).xyz;
 
-    gl_Position = proj * worldPos;
+    gl_Position = proj * view * worldPos;
+    //gl_Position = worldPos;
 }
