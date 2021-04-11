@@ -12,7 +12,7 @@ Application Application::s_Application;
 
 static Entity* player = nullptr;
 static Shader shader;
-static Camera* camera = new Camera(glm::vec3(4, 1, 0));
+static Camera* camera = new Camera(glm::vec3(0, 0, -5));
 
 static Renderer m_Renderer;
 static DisplayManager m_Display;

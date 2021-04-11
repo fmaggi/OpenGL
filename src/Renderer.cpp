@@ -18,18 +18,21 @@ void Renderer::renderModel(Model* model)
 void Renderer::render(Entity* ent, Shader& shader)
 {
 	Model* model = ent->getModel();
-	glm::mat4 trans = ent->getTransformationMatrix();
-	glm::mat4 view = camera->getTransformationMatrix();
 	auto meshes = model->getMeshes();
+
+	glm::mat4 trans = ent->getTransformationMatrix();
+	glm::mat4 view = camera->getViewMatrix();
 	shader.bind();
 	shader.setUniformM4f("model", trans);
 	shader.setUniformM4f("proj", projectionMatrix);
 	shader.setUniformM4f("view", view);
+
 	glBindVertexArray(model->getVaoID());
 	for (ObjModel* obj : meshes)
 	{
 		Material material = model->getMaterial(obj->getMaterial());
 		shader.setUniformMaterial("material", material);
+
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, obj->getIbo());
 		glDrawElements(GL_TRIANGLES, obj->getVertexCount(), GL_UNSIGNED_INT, 0);
 	}

@@ -1,13 +1,13 @@
 #include "Input.h"
 
-void Move::execute(Entity* ntt, float ts)
+void Move::execute(BaseObject* ntt, float ts)
 {
-	ntt->move(dir * glm::vec3(ts));
+	ntt->move(dir * ts);
 }
 
-void Rotate::execute(Entity* ntt, float ts)
+void Rotate::execute(BaseObject* ntt, float ts)
 {
-	ntt->rotate(rot * glm::vec3(ts));
+	ntt->rotate(rot * ts);
 }
 
 void InputHandler::changeInput()
@@ -59,7 +59,7 @@ void InputHandler::changeInput()
 
 }
 
-void InputHandler::handle(Entity* player, float ts)
+void InputHandler::handle(BaseObject* player, float ts)
 {
 	if (glfwGetKey(m_Window, GLFW_KEY_W) == GLFW_PRESS)
 	{

@@ -1,12 +1,12 @@
 #pragma once
-#include "Entity.h"
 #include "Core.h"
+#include "BaseObject.h"
 
 class Command
 {
 public:
 	virtual ~Command() {}
-	virtual void execute(Entity* ntt, float ts) = 0;
+	virtual void execute(BaseObject* ntt, float ts) = 0;
 };
 
 class Move : public Command
@@ -15,7 +15,7 @@ public:
 	Move(glm::vec3&& d)
 		: dir(d)
 	{};
-	void execute(Entity* ntt, float ts) override;
+	void execute(BaseObject* ntt, float ts) override;
 private:
 	glm::vec3 dir;
 };
@@ -26,7 +26,7 @@ public:
 	Rotate(glm::vec3&& r)
 		: rot(r)
 	{};
-	void execute(Entity* ntt, float ts) override;
+	void execute(BaseObject* ntt, float ts) override;
 private:
 	glm::vec3 rot;
 };
@@ -39,7 +39,7 @@ public:
 
 	inline void setWindow(GLFWwindow* window) { m_Window = window; }
 	void changeInput();
-	void handle(Entity* player, float ts);
+	void handle(BaseObject* player, float ts);
 private:
 	GLFWwindow* m_Window;
 
