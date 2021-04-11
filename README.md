@@ -1,5 +1,7 @@
 # OpenGL
 
+## Developing terrain rendering
+
 trying to learn opengl with c++
 
 Learned openGL watching the Cherno youtube channel.
