@@ -33,7 +33,7 @@ void InputHandler::changeInput()
 		delete keyA;
 		if (m)
 		{
-			keyA = new Move({ -0.5f, 0.0f, 0.0f });
+			keyA = new Move({ -1.0f, 0.0f, 0.0f });
 			return;
 		}
 		else if (r)
@@ -47,7 +47,7 @@ void InputHandler::changeInput()
 		delete keyD;
 		if (m)
 		{
-			keyD = new Move({ 0.5f, 0.0f, 0.0f });
+			keyD = new Move({ 1.0f, 0.0f, 0.0f });
 			return;
 		}
 		else if (r)
@@ -83,9 +83,9 @@ void InputHandler::handle(Entity* player, float ts)
 InputHandler::InputHandler()
 {
 	keyW = new Move({ 0.0f, 2.0f, 0.0f });
-	keyA = new Move({ -0.5f, 0.0f, 0.0f });
-	keyS = new Move({ 0.0f, -0.5f, 0.0f });
-	keyD = new Move({ 0.5f, 0.0f, 0.0f });
+	keyA = new Move({ -2.0f, 0.0f, 0.0f });
+	keyS = new Move({ 0.0f, -2.0f, 0.0f });
+	keyD = new Move({ 2.0f, 0.0f, 0.0f });
 	m_Window = nullptr;
 }
 

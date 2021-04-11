@@ -32,15 +32,15 @@ void Entity::launch()
 
 glm::mat4 Entity::getTransformationMatrix()
 {
-    glm::mat4 ViewTranslate = glm::translate(glm::mat4(1.0f), m_Position);
-    glm::mat4 ViewRotateX = glm::rotate(ViewTranslate,
+    glm::mat4 trans = glm::translate(glm::mat4(1.0f), m_Position);
+    glm::mat4 ViewRotateX = glm::rotate(glm::mat4(),
         m_Rotation.x, glm::vec3(1.0f, 0.0f, 0.0f));
     glm::mat4 ViewRotateY = glm::rotate(
         ViewRotateX,
         m_Rotation.y, glm::vec3(0.0f, 1.0f, 0.0f));
-    glm::mat4 trans = glm::rotate(ViewRotateY, m_Rotation.z, glm::vec3(0.0f, 0.0f, 1.0f));
+    glm::mat4 rot = glm::rotate(ViewRotateY, m_Rotation.z, glm::vec3(0.0f, 0.0f, 1.0f));
 
     glm::mat4 scale = glm::scale(glm::mat4(1.0f), m_Scale);
 
-	return scale * trans;
+	return trans * scale;
 }

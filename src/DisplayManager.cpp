@@ -13,8 +13,6 @@ int DisplayManager::genereate(int width, int height, const std::string& title)
     m_title = title.c_str();
     
     aspectRatio = (float)m_width / m_height;
-    projectionMatrix = glm::perspective(45.0f, aspectRatio, 0.1f, 100.f);
-
     glfwSetErrorCallback(ErrorCallback);
 
 	if (!glfwInit())
@@ -38,8 +36,12 @@ int DisplayManager::genereate(int width, int height, const std::string& title)
 
     glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height) {
         DisplayManager* display = (DisplayManager*)glfwGetWindowUserPointer(window);
-        display->resize(width, height);
         Event event(EventType::Resize);
+        event.data["w"] = width;
+        event.data["h"] = height;
+
+        display->resize(width, height);
+
         EventManager::dispatch(event);
         });
 
@@ -67,19 +69,14 @@ int DisplayManager::genereate(int width, int height, const std::string& title)
         return -3;
     }
 
-    glViewport(0, 0, width, height);
-
 	return 0;
 }
 
 void DisplayManager::resize(int w, int h)
 {
-    glViewport(0, 0, w, h);
-
     m_width = w;
     m_height = h;
-    aspectRatio = (float)m_width / m_height;
-    projectionMatrix = glm::perspective(45.0f, aspectRatio, 0.1f, 100.f);
+    aspectRatio = (float)w / h;
 }
 
 void DisplayManager::update()

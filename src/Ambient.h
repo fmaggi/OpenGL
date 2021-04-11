@@ -15,15 +15,25 @@ private:
 	glm::vec3 m_Color;
 };
 
-class Camera
+class Camera : public Entity
 {
 public:
 	Camera(glm::vec3 pos)
 		:m_Pos(pos)
-	{};
+	{
+		viewMatrix = glm::lookAt(m_Pos, glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
+	}
+
+	inline void setPlayer(Entity* p) { player = p; }
+
 	inline const glm::vec3& getPosition() const { return m_Pos; }
+	glm::mat4 getTransformationMatrix() override;
+	void move(glm::vec3 d) override;
 private:
 	glm::vec3 m_Pos;
+
+	glm::mat4 viewMatrix;
+
 	Entity* player = nullptr;
 };
 

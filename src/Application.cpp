@@ -12,6 +12,7 @@ Application Application::s_Application;
 
 static Entity* player = nullptr;
 static Shader shader;
+static Camera* camera = new Camera(glm::vec3(4, 1, 0));
 
 static Renderer m_Renderer;
 static DisplayManager m_Display;
@@ -20,10 +21,11 @@ static InputHandler m_Input;
 static unsigned int vaoID;
 
 
-void Application::resize()
+void Application::resize(Event& e)
 {
-	glm::mat4 proj = m_Display.getPojectionMatrix();
-	m_Renderer.setProjectionMatrix(proj);
+	int width = e.data["w"];
+	int height = e.data["h"];
+	m_Renderer.setViewPort(width, height);
 }
 
 void Application::close()
@@ -51,15 +53,15 @@ void Application::keyPressed(Event& e)
 	}
 	if (key == GLFW_KEY_R && mode == GLFW_PRESS)
 	{
-		player->setPosition({ 0.0f, -5.0f, -15.0f });
+		player->setPosition({ 0.0f, 0.0f, 0.0f });
 		player->setRotation({ 0.0f, 0.0f, 0.0f });
+		return;
 	}
 }
 
 int Application::Init()
 {
 	s_Application.isRunning = true;
-
 
 	int width = 720;
 	int height = 480;
@@ -74,8 +76,8 @@ int Application::Init()
 	m_Renderer.setClearColor(0.18, 0.2, 0.8);
 	m_Display.update();
 
-	glm::mat4 Projection = m_Display.getPojectionMatrix();
-	//m_Renderer.setProjectionMatrix(Projection);
+	m_Renderer.setViewPort(width, height);
+	m_Renderer.setCamera(camera);
 
 	m_Input.setWindow(m_Display.getWindow());
 
@@ -91,7 +93,9 @@ int Application::Init()
 	player = new Entity();
 	player->setModel(mod);
 
-	player->setPosition(glm::vec3(0, 0, -15));
+	camera->setPlayer(player);
+
+	player->setPosition(glm::vec3(0, 0, 0));
 	player->setRotation(glm::vec3(0, 0, 0));
 	player->setScale(1);
 	
@@ -120,7 +124,7 @@ void Application::OnEvent()
 		switch (t)
 		{
 		case EventType::Resize:
-			s_Application.resize();
+			s_Application.resize(e);
 			break;
 		case EventType::WinClose:
 			s_Application.close();
@@ -143,8 +147,7 @@ void Application::Update()
 	float timestep = time - s_Application.m_LastFrameTime;
 	s_Application.m_LastFrameTime = time;
 
-	m_Input.handle(player, timestep);
-
+	m_Input.handle(camera, timestep);
 	Physics::update(player, timestep);
 }
 

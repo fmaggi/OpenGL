@@ -13,7 +13,7 @@ public:
 
 	inline void setPosition(glm::vec3&& position) { m_Position = position; }
 	inline glm::vec3 getPosition() const { return m_Position; }
-	inline void move(glm::vec3 d) { m_Position += d; }
+	virtual inline void move(glm::vec3 d) { m_Position += d; }
 
 	inline void setRotation(glm::vec3&& rot) { m_Rotation = rot; }
 	inline glm::vec3 getRotation() const { return m_Rotation; }
@@ -32,7 +32,7 @@ public:
 	inline float getMass() { return m_Mass; }
 	inline float getPower() { return m_Power; }
 
-	glm::mat4 getTransformationMatrix();
+	virtual glm::mat4 getTransformationMatrix();
 
 private:
 	Model* m_Model;
