@@ -15,6 +15,10 @@ public:
 
 	void setClearColor(float r, float g, float b);
 
+	inline void setProjectionMatrix(glm::mat4& mat) { projectionMatrix = mat; }
+
 	void prepare();
+private:
+	glm::mat4 projectionMatrix;
 };
 

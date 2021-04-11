@@ -22,6 +22,7 @@ void Renderer::render(Entity* ent, Shader& shader)
 	auto meshes = model->getMeshes();
 	shader.bind();
 	shader.setUniformM4f("model", trans);
+	shader.setUniformM4f("proj", projectionMatrix);
 	glBindVertexArray(model->getVaoID());
 	for (ObjModel* obj : meshes)
 	{
