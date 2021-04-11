@@ -12,7 +12,7 @@ protected:
 	//std::unordered_map<Model*, std::vector<Entity>> ntt_map;
 	// future feature, instead of having a single entity
 
-	bool isRunning;
+	bool isRunning = false;
 
 	void resize();
 	void close();

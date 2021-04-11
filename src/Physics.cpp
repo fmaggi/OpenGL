@@ -11,16 +11,15 @@ namespace Physics
 
 	void update(Entity* ntt, float ts)
 	{
-		glm::vec3 m_pos = ntt->getPosition();
 		glm::vec2 m_speed = ntt->getSpeed();
 
 		glm::mat4 trans = ntt->getTransformationMatrix();
 		glm::vec3 scale;
 		glm::quat rotation;
-		glm::vec3 translation;
+		glm::vec3 m_pos;
 		glm::vec3 skew;
 		glm::vec4 perspective;
-		glm::decompose(trans, scale, rotation, translation, skew, perspective);
+		glm::decompose(trans, scale, rotation, m_pos, skew, perspective);
 
 		float cosZ = glm::cos(rotation.z);
 		float sinZ = glm::sin(rotation.z);

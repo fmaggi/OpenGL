@@ -23,7 +23,7 @@ static unsigned int vaoID;
 void Application::resize()
 {
 	glm::mat4 proj = m_Display.getPojectionMatrix();
-	shader.setUniformM4f("proj", proj);
+	m_Renderer.setProjectionMatrix(proj);
 }
 
 void Application::close()
@@ -74,6 +74,9 @@ int Application::Init()
 	m_Renderer.setClearColor(0.18, 0.2, 0.8);
 	m_Display.update();
 
+	glm::mat4 Projection = m_Display.getPojectionMatrix();
+	//m_Renderer.setProjectionMatrix(Projection);
+
 	m_Input.setWindow(m_Display.getWindow());
 
 	std::string model_name = "colored";
@@ -90,19 +93,13 @@ int Application::Init()
 
 	player->setPosition(glm::vec3(0, 0, -15));
 	player->setRotation(glm::vec3(0, 0, 0));
-
 	player->setScale(1);
 	
-	glm::mat4 model = player->getTransformationMatrix();
-	glm::mat4 Projection = m_Display.getPojectionMatrix();
-
 	Light light(glm::vec3(3.0f, 0.0f, 0.0f), glm::vec3(1, 1, 1));
 
 	shader.loadShader("vertexShader", "fragmentShader");
 	shader.bind();
 
-	shader.setUniformM4f("model", model);
-	shader.setUniformM4f("proj", Projection);
 	shader.setUniformVec3f("LightPos", light.getPosition());
 	shader.setUniformVec3f("LightColor", light.getColor());
 

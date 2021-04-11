@@ -24,7 +24,7 @@ public:
 	inline const glm::vec3& getPosition() const { return m_Pos; }
 private:
 	glm::vec3 m_Pos;
-	Entity* player;
+	Entity* player = nullptr;
 };
 
 
