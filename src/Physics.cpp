@@ -12,8 +12,8 @@ namespace Physics
 	void update(Entity* ntt, float ts)
 	{
 		glm::vec2 m_speed = ntt->getSpeed();
-		glm::vec3 rotation = ntt->getRotation();
 		glm::vec3 m_pos = ntt->getPosition();
+		glm::vec3 rotation = ntt->getRotation();
 
 		float cosZ = glm::cos(rotation.z);
 		float sinZ = glm::sin(rotation.z);
@@ -32,11 +32,12 @@ namespace Physics
 		{
 			ntt->setPosition(glm::vec3(m_pos.x, FLOOR, m_pos.z));
 			ntt->setSpeed(0, 0);
-			return;
 		}
-
-		ntt->move(glm::vec3(-move_x, move_y, 0.0f));
-
-		ntt->setSpeed(speed_x, speed_y);
+		else
+		{
+			ntt->move(glm::vec3(-move_x, move_y, 0.0f));
+			ntt->setSpeed(speed_x, speed_y);
+		}
+		ntt->calculateTransformationMatrix();
 	}
 }

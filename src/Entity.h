@@ -33,7 +33,8 @@ public:
 	inline float getMass() { return m_Mass; }
 	inline float getPower() { return m_Power; }
 
-	virtual glm::mat4 getTransformationMatrix();
+	const inline glm::mat4& getTransformationMatrix() const { return m_transformation; }
+	void calculateTransformationMatrix();
 
 private:
 	Model* m_Model;
@@ -45,5 +46,7 @@ private:
 	float m_Mass;
 	float m_Power;
 	float m_Acceleration;
+
+	glm::mat4 m_transformation;
 };
 
