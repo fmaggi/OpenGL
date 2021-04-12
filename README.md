@@ -6,7 +6,7 @@ Learned openGL watching the Cherno youtube channel.
 
 Do not know how to use cmake or premake yet
 
-wasd keys to move and rotate
+wasd keys to move camera
 
 space bar to launch rocket
 
