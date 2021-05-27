@@ -18,6 +18,6 @@ void main()
     toLightVector = LightPos - worldPos.xyz;
     surfaceNormal = (model * vec4(normal, 0.0)).xyz;
 
-    gl_Position = proj * view * worldPos;
+    gl_Position = proj *view * worldPos;
     //gl_Position = worldPos;
 }

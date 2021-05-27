@@ -16,13 +16,13 @@ public:
 
 	void setClearColor(float r, float g, float b);
 
-	inline void setProjectionMatrix(glm::mat4& mat) { projectionMatrix = mat; }
+	inline glm::mat4 getProjectionMatrix() { return m_projectionMatrix; }
 	void setViewPort(int w, int h);
-	inline void setCamera(Camera* cam) { camera = cam; }
+	inline void setCamera(Camera* cam) { m_camera = cam; }
 
 	void prepare();
 private:
-	glm::mat4 projectionMatrix;
-	Camera* camera = nullptr;
+	glm::mat4 m_projectionMatrix;
+	Camera* m_camera = nullptr;
 };
 

@@ -111,12 +111,12 @@ void Shader::loadShader(const std::string& filename_v, const std::string& filena
     std::ifstream fragment("shader/" + filename_f + ".shader");
     if (!vertex.is_open())
     {
-        std::cout << "Couldnt load vertex" << std::endl;
+        std::cout << "Couldnt load " << filename_v << std::endl;
         return;
     }
     if (!fragment.is_open())
     {
-        std::cout << "Couldnt load fragment" << std::endl;
+        std::cout << "Couldnt load " << filename_f << std::endl;
         return;
     }
 

@@ -19,12 +19,11 @@ void Renderer::render(Entity* ent, Shader& shader)
 {
 	Model* model = ent->getModel();
 	auto meshes = model->getMeshes();
-
 	glm::mat4 trans = ent->getTransformationMatrix();
-	glm::mat4 view = camera->getViewMatrix();
+	glm::mat4 view = m_camera->getViewMatrix();
 	shader.bind();
 	shader.setUniformM4f("model", trans);
-	shader.setUniformM4f("proj", projectionMatrix);
+	shader.setUniformM4f("proj", m_projectionMatrix);
 	shader.setUniformM4f("view", view);
 
 	glBindVertexArray(model->getVaoID());
@@ -53,7 +52,7 @@ void Renderer::renderEntity(Entity* ent)
 
 void Renderer::setViewPort(int w, int h)
 {
-	projectionMatrix = glm::perspective(45.0f, (float)w / h, 0.1f, 100.0f);
+	m_projectionMatrix = glm::perspective(45.0f, (float)w / h, 0.1f, 100.0f);
 	glViewport(0, 0, w, h);
 }
 	
