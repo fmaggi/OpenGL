@@ -1,9 +1,5 @@
 #include "Entity.h"
 
-static float GRAVITY = -9.8;
-// TODO: physics file
-
-
 Entity::Entity()
 {
 	m_Speed = { 0.0f, 0.0f };

@@ -1,5 +1,10 @@
 #include "Application.h"
 
+#include "Core.h"
+
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+
 #include "Physics.h"
 #include "Renderer.h"
 #include "DisplayManager.h"
@@ -7,8 +12,11 @@
 #include "Input.h"
 #include "OBJLoader.h"
 #include "Ambient.h"
+#include "Terrain.h"
 
 Application Application::s_Application;
+
+static Terrain* terrain = nullptr;
 
 static Entity* player = nullptr;
 static Shader shader;
@@ -19,20 +27,6 @@ static Shader terrainShader;
 static Renderer m_Renderer;
 static DisplayManager m_Display;
 static InputHandler m_Input;
-
-static unsigned int vaoID, vbo, ibo;
-
-static float floor_cord[12] = {
-	-0.5f, 0.0f, -0.50f,
-	0.50f, 0.0f, -0.50f,
-	0.50f, 00.0f, 0.50f,
-	-0.50f, 00.0f, 0.50f
-};
-
-static unsigned int indices[6] = {
-	0, 1, 2, // bl, br, tr
-	2, 3, 0 // tr, tl, bl
-};
 
 void Application::resize(Event& e)
 {
@@ -105,13 +99,12 @@ int Application::Init()
 
 	player = new Entity();
 	player->setModel(mod);
-
-	camera->setPlayer(player);
-
 	player->setPosition(glm::vec3(0, 0, -10));
 	player->setRotation(glm::vec3(0, 0, 0));
 	player->setScale(1);
 	player->calculateTransformationMatrix();
+
+	camera->setPlayer(player);
 	
 	Light light(glm::vec3(3.0f, 0.0f, 0.0f), glm::vec3(1, 1, 1));
 
@@ -121,27 +114,14 @@ int Application::Init()
 	shader.setUniformVec3f("LightPos", light.getPosition());
 	shader.setUniformVec3f("LightColor", light.getColor());
 
-	m_Renderer.setClearColor(0.4f, 0.5f, 0.8f);
-	m_Display.update();
+	terrain = new Terrain(glm::vec3(0, -3, -10), glm::vec3(20, 1, 20));
 
 	terrainShader.loadShader("terrainV", "terrainF");
 
+	m_Renderer.setClearColor(0.4f, 0.5f, 0.8f);
+	m_Display.update();
+
 	s_Application.m_LastFrameTime = (float)glfwGetTime();
-
-	glGenVertexArrays(1, &vaoID);
-	glBindVertexArray(vaoID);
-
-	glGenBuffers(1, &vbo);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-
-	glBufferData(GL_ARRAY_BUFFER, 12 * sizeof(float), floor_cord, GL_STATIC_DRAW);
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-	glGenBuffers(1, &ibo);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(unsigned int), indices, GL_STATIC_DRAW);
 
 	return 0;
 }
@@ -184,18 +164,7 @@ void Application::Update()
 
 void Application::Draw()
 {
-	glBindVertexArray(vaoID);
-	terrainShader.bind();
-	glm::mat4 view = camera->getViewMatrix();
-	glm::mat4 proj = m_Renderer.getProjectionMatrix();
-	glm::mat4 sc = glm::scale(glm::mat4(1), glm::vec3(5, 1, 5));
-	glm::mat4 tr = glm::translate(glm::mat4(1), glm::vec3(0, -3, -10));
-	glm::mat4 model = tr * sc;
-	terrainShader.setUniformM4f("proj", proj);
-	terrainShader.setUniformM4f("view", view);
-	terrainShader.setUniformM4f("model", model);
-
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+	m_Renderer.renderTerrain(terrain, terrainShader);
 	m_Renderer.render(player, shader);
 }
 
@@ -209,5 +178,6 @@ void Application::Delete()
 	delete player->getModel();
 	delete player;
 	delete camera;
+	delete terrain;
 	glfwTerminate();
 }

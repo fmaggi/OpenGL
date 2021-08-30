@@ -1,5 +1,8 @@
 #include "Model.h"
 
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+
 Model::Model()
 {
 	glGenVertexArrays(1, &vaoID);

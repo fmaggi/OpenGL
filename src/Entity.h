@@ -1,6 +1,8 @@
 #pragma once
-#include "Model.h"
+
 #include "Core.h"
+
+#include "Model.h"
 #include "BaseObject.h"
 
 class Entity : public BaseObject
