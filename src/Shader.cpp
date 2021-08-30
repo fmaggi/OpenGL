@@ -1,5 +1,10 @@
 #include "Shader.h"
 
+#include <fstream>
+
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+
 void Shader::setUniformM4f(const std::string& name, glm::mat4& matrix)
 {
     int location = getUniformLocation(name);
@@ -87,9 +92,9 @@ unsigned int Shader::compileShader(const std::string& source, unsigned int type)
 
 Shader::~Shader()
 {
-    //glDeleteShader(vertexID);
-    //glDeleteShader(fragmentID);
-    //glDeleteProgram(programID);
+    glDeleteShader(vertexID);
+    glDeleteShader(fragmentID);
+    glDeleteProgram(programID);
 }
 
 void Shader::createShader(const std::string& vertexShader, const std::string& fragmentShader)

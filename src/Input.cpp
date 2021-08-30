@@ -1,5 +1,8 @@
 #include "Input.h"
 
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+
 void Move::execute(BaseObject* ntt, float ts)
 {
 	ntt->move(dir * ts);

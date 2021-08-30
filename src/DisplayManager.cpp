@@ -1,4 +1,5 @@
 #include "DisplayManager.h"
+
 #include "EventManager.h"
 
 void ErrorCallback(int, const char* err_str)

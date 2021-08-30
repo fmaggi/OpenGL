@@ -1,19 +1,7 @@
 #include "Renderer.h"
 
-Renderer::Renderer()
-{
-}
-
-void Renderer::renderModel(Model* model)
-{
-	glBindVertexArray(model->getVaoID());
-	auto m = model->getMeshes();
-	for (ObjModel* obj : m)
-	{
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, obj->getIbo());
-		glDrawElements(GL_TRIANGLES, obj->getVertexCount(), GL_UNSIGNED_INT, 0);
-	}
-}
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 
 void Renderer::render(Entity* ent, Shader& shader)
 {
@@ -37,16 +25,26 @@ void Renderer::render(Entity* ent, Shader& shader)
 	}
 }
 
+void Renderer::renderTerrain(Terrain* t, Shader& shader)
+{
+	glBindVertexArray(t->getVaoID());
+	shader.bind();
+
+	glm::mat4 model = t->getTransformationMAtrix();
+	glm::mat4 view = m_camera->getViewMatrix();
+
+	shader.setUniformM4f("proj", m_projectionMatrix);
+	shader.setUniformM4f("view", view);
+	shader.setUniformM4f("model", model);
+
+	glDrawElements(GL_TRIANGLES, t->getCount(), GL_UNSIGNED_INT, 0);
+}
+
+
 void Renderer::setClearColor(float r, float g, float b)
 {
 	glClearColor(r, g, b, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
-}
-
-void Renderer::renderEntity(Entity* ent)
-{
-	Model* model = ent->getModel();
-	renderModel(model);
 }
 
 

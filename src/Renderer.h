@@ -1,18 +1,16 @@
 #pragma once
 
-#include "Core.h"
 #include "Entity.h"
 #include "Shader.h"
 #include "Ambient.h"
+#include "Terrain.h"
 
 class Renderer
 {
 public:
-	Renderer();
-
-	void renderModel(Model* model);
-	void renderEntity(Entity* ent);
+	Renderer() {};
 	void render(Entity* ent, Shader& shader);
+	void renderTerrain(Terrain* t, Shader& shader);
 
 	void setClearColor(float r, float g, float b);
 

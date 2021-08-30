@@ -1,5 +1,7 @@
 #include "OBJLoader.h"
 
+#include <fstream>
+
 Model* OBJLoader::LoadObj(std::string filename)
 {
     std::string line;
